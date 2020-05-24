@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -28,16 +29,37 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String changed;
-  String submitted;
+  Map check = {
+    'Carottes': false,
+    'Bananes': false,
+    'Yaourt': false,
+    'Pain': false,
+  };
+
+  List<Widget> checkList() {
+    List<Widget> l = [];
+    check.forEach((key, value) {
+      Row row = new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Text(key, style: new TextStyle(color: (value)? Colors.green: Colors.red),),
+          new Checkbox(
+              value: (value),
+              onChanged: (bool b) {
+                setState(() {
+                  check[key] = b;
+                });
+              })
+        ],
+      );
+      l.add(row);
+    });
+    return l;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-      },
-      child: Scaffold(
+    return new Scaffold(
         appBar: new AppBar(
 
           title: new Text(widget.title),
@@ -45,31 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
         body: new Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (String string) {
-                    setState(() {
-                      changed = string;
-                    });
-                  },
-                  onSubmitted: (String string) {
-                    setState(() {
-                      submitted = string;
-                    });
-                  },
-                  decoration: new InputDecoration(
-                      labelText: 'Entrez votre nom'
-                  ),
-                ),
-                new Text(changed ?? ''),
-                new Text(submitted ?? '')
-              ],
+              children: checkList(),
             )
 
         ),
-      ),
-    );
+      );
+
 
 
 

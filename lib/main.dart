@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -27,18 +28,50 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  String changed;
+  String submitted;
 
   @override
   Widget build(BuildContext context) {
+    return new GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Scaffold(
+        appBar: new AppBar(
 
-    return Scaffold(
-      appBar: AppBar(
+          title: new Text(widget.title),
+        ),
+        body: new Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (String string) {
+                    setState(() {
+                      changed = string;
+                    });
+                  },
+                  onSubmitted: (String string) {
+                    setState(() {
+                      submitted = string;
+                    });
+                  },
+                  decoration: new InputDecoration(
+                      labelText: 'Entrez votre nom'
+                  ),
+                ),
+                new Text(changed ?? ''),
+                new Text(submitted ?? '')
+              ],
+            )
 
-        title: Text(widget.title),
+        ),
       ),
-      body: Center(
-        
-      )
     );
+
+
+
   }
 }

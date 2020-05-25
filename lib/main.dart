@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int itemSelectionne;
+  bool interrupteur = false;
 
   List<Widget> radios() {
     List<Widget> l = [];
@@ -90,7 +91,18 @@ class _MyHomePageState extends State<MyHomePage> {
         body: new Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: radios(),
+              children: [
+                new Text('Aimez-vous Flutter ?'),
+                new Switch(
+                    value: interrupteur,
+                    inactiveTrackColor: Colors.red,
+                    activeColor: Colors.green,
+                    onChanged: (bool b) {
+                      setState(() {
+                        interrupteur = b;
+                      });
+                    })
+              ],
             )
 
         ),

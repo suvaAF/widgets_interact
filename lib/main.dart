@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int itemSelectionne;
   bool interrupteur = false;
+  double sliderDouble = 0.0;
 
   List<Widget> radios() {
     List<Widget> l = [];
@@ -92,14 +93,17 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                new Text('Aimez-vous Flutter ?'),
-                new Switch(
-                    value: interrupteur,
-                    inactiveTrackColor: Colors.red,
-                    activeColor: Colors.green,
-                    onChanged: (bool b) {
+                new Text('Valeur du Slider: $sliderDouble'),
+                new Slider(
+                    value: sliderDouble,
+                    min: 0.0,
+                    max: 10.0,
+                    inactiveColor: Colors.black87,
+                    activeColor: Colors.pinkAccent,
+                    divisions: 5,
+                    onChanged: (double d) {
                       setState(() {
-                        interrupteur = b;
+                        sliderDouble = d;
                       });
                     })
               ],

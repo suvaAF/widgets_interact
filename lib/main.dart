@@ -29,6 +29,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  int itemSelectionne;
+
+  List<Widget> radios() {
+    List<Widget> l = [];
+    for (int x = 0; x < 4; x++) {
+      Row row = new Row(
+        children: <Widget>[
+          new Text('Choix numéro ${x+1}'),
+          new Radio(
+              value: x,
+              groupValue: itemSelectionne,
+              onChanged: (int i) {
+                setState(() {
+                  itemSelectionne = i;
+                });
+          })
+        ],
+      );
+      l.add(row);
+    }
+    return l;
+  }
+
   Map check = {
     'Carottes': false,
     'Bananes': false,
@@ -67,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: new Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: checkList(),
+              children: radios(),
             )
 
         ),

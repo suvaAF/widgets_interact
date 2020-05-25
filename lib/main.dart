@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -32,6 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int itemSelectionne;
   bool interrupteur = false;
   double sliderDouble = 0.0;
+  DateTime date;
+  TimeOfDay time;
 
   List<Widget> radios() {
     List<Widget> l = [];
@@ -85,35 +88,52 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
+      appBar: new AppBar(
 
-          title: new Text(widget.title),
-        ),
-        body: new Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                new Text('Valeur du Slider: $sliderDouble'),
-                new Slider(
-                    value: sliderDouble,
-                    min: 0.0,
-                    max: 10.0,
-                    inactiveColor: Colors.black87,
-                    activeColor: Colors.pinkAccent,
-                    divisions: 5,
-                    onChanged: (double d) {
-                      setState(() {
-                        sliderDouble = d;
-                      });
-                    })
-              ],
-            )
+        title: new Text(widget.title),
+      ),
+      body: new Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              new FlatButton(
+                  child: new Text((date == null)? 'Appuyer sur mon clito': date.toString()),
+                  onPressed: montreDate,),
+              new FlatButton(
+                onPressed: montrerHeure,
+                child: new Text((time == null)? 'Appuyer sur mon clito': time.toString()),
+              )
+            ],
+          )
 
-        ),
-      );
-
-
-
-
+      ),
+    );
   }
+      Future<Null> montreDate() async {
+        DateTime choix = await showDatePicker(
+            context: context,
+            initialDatePickerMode: DatePickerMode.year,
+            initialDate: new DateTime.now(),
+            firstDate: new DateTime(1979),
+            lastDate: new DateTime(2079));
+        if (choix != null) {
+            setState(() {
+              date = choix;
+            });
+        }
+      }
+
+      Future<Null> montrerHeure() async {
+        TimeOfDay heure = await showTimePicker(
+            context: context,
+            initialTime: new TimeOfDay.now());
+        if (heure != null) {
+          setState(() {
+            time = heure;
+          });
+        }
+
+
+      }
+
 }
